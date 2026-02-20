@@ -73,6 +73,7 @@ python ~/.claude/skills/imagenty/scripts/generate_image.py --list-models
 | `wan2.2-t2i-plus` | 专业级 |
 | `wanx2.1-t2i-turbo` | 快速执行 |
 | `wanx2.1-t2i-plus` | 专业级 |
+| `wanx2.0-t2i-turbo` | 早期版本 |
 
 ## 尺寸预设
 

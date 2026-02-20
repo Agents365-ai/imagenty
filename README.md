@@ -73,6 +73,7 @@ python ~/.claude/skills/imagenty/scripts/generate_image.py --list-models
 | `wan2.2-t2i-plus` | Professional tier |
 | `wanx2.1-t2i-turbo` | Fast execution |
 | `wanx2.1-t2i-plus` | Professional tier |
+| `wanx2.0-t2i-turbo` | Earlier generation |
 
 ## Size Presets
 
