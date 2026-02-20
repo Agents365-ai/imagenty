@@ -105,6 +105,25 @@ python ~/.claude/skills/imagenty/scripts/generate_image.py --list-models
 
 MIT License
 
+## Support
+
+If this project helps you, consider supporting the author:
+
+<table>
+  <tr>
+    <td align="center">
+      <img src="images/wechat-pay.png" width="180" alt="WeChat Pay">
+      <br>
+      <b>WeChat Pay</b>
+    </td>
+    <td align="center">
+      <img src="images/alipay.png" width="180" alt="Alipay">
+      <br>
+      <b>Alipay</b>
+    </td>
+  </tr>
+</table>
+
 ## Author
 
 **Agents365-ai**
