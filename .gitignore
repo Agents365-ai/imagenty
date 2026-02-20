@@ -16,6 +16,7 @@ build/
 *.jpg
 *.jpeg
 !assets/
+!images/
 
 # Environment
 .env
