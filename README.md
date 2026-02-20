@@ -45,6 +45,19 @@ export DASHSCOPE_API_BASE="cn"  # or "sg", "us", or full URL
 
 ## Quick Start
 
+### Natural Language (Claude Code)
+
+Just tell Claude what you want:
+
+```
+Generate an image of a cute orange cat
+Create a poster with Chinese text "新年快乐"
+Make a photorealistic mountain sunset photo using wan2.6-t2i
+Generate a 16:9 landscape wallpaper
+```
+
+### Command Line
+
 ```bash
 # Basic usage (default model: qwen-image-plus)
 python ~/.claude/skills/imagenty/scripts/generate_image.py "A cute cat" output.png

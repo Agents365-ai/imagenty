@@ -45,6 +45,19 @@ export DASHSCOPE_API_BASE="cn"  # 或 "sg", "us", 或完整 URL
 
 ## 快速开始
 
+### 自然语言（Claude Code）
+
+直接告诉 Claude 你想要什么：
+
+```
+生成一只可爱的橘猫图片
+创建一张带有"新年快乐"文字的海报
+用 wan2.6-t2i 模型生成一张写实的山间日落照片
+生成一张 16:9 的风景壁纸
+```
+
+### 命令行
+
 ```bash
 # 基本用法（默认模型: qwen-image-plus）
 python ~/.claude/skills/imagenty/scripts/generate_image.py "一只可爱的猫咪" output.png
