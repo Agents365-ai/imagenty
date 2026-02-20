@@ -105,14 +105,6 @@ python ~/.claude/skills/imagenty/scripts/generate_image.py --list-models
 
 MIT License
 
-## Support
-
-If this project helps you, consider buying me a coffee:
-
-| WeChat Pay | Alipay |
-|------------|--------|
-| <img src="https://raw.githubusercontent.com/nicobailon/video-podcast-maker/main/assets/wechat-pay.jpg" width="200"> | <img src="https://raw.githubusercontent.com/nicobailon/video-podcast-maker/main/assets/alipay.jpg" width="200"> |
-
 ## Author
 
 [Agents365-ai](https://github.com/Agents365-ai)

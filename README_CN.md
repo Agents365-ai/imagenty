@@ -105,14 +105,6 @@ python ~/.claude/skills/imagenty/scripts/generate_image.py --list-models
 
 MIT License
 
-## 支持
-
-如果这个项目对你有帮助，欢迎请我喝杯咖啡：
-
-| 微信支付 | 支付宝 |
-|----------|--------|
-| <img src="https://raw.githubusercontent.com/nicobailon/video-podcast-maker/main/assets/wechat-pay.jpg" width="200"> | <img src="https://raw.githubusercontent.com/nicobailon/video-podcast-maker/main/assets/alipay.jpg" width="200"> |
-
 ## 作者
 
 [Agents365-ai](https://github.com/Agents365-ai)
