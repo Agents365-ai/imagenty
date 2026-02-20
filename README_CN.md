@@ -107,4 +107,7 @@ MIT License
 
 ## 作者
 
-[Agents365-ai](https://github.com/Agents365-ai)
+**Agents365-ai**
+
+- Bilibili: https://space.bilibili.com/441831884
+- GitHub: https://github.com/Agents365-ai
