@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-ImagenTY - 阿里云百炼文生图脚本
+ImagenTY - Alibaba Cloud Bailian Text-to-Image Script
 
-使用阿里云 DashScope API 生成图像，支持通义千问和通义万相模型。
-默认使用中国区端点，适合国内用户。
+Generate images using Alibaba Cloud DashScope API with Qwen-Image and Wan Series models.
+Default endpoint is China region.
 
 Usage:
     python generate_image.py "prompt" [output_path]
@@ -11,23 +11,23 @@ Usage:
     python generate_image.py --size 1024*1024 "prompt" output.png
 
 Environment variables:
-    DASHSCOPE_API_KEY (required) - 阿里云百炼 API Key
-    DASHSCOPE_MODEL (optional) - 默认模型 (default: qwen-image-plus)
-    DASHSCOPE_API_BASE (optional) - API端点，默认中国区
+    DASHSCOPE_API_KEY (required) - Alibaba Cloud Bailian API Key
+    DASHSCOPE_MODEL (optional) - Default model (default: qwen-image-plus)
+    DASHSCOPE_API_BASE (optional) - API endpoint, defaults to China region
 
 API Endpoints:
-    中国区 (默认): https://dashscope.aliyuncs.com/api/v1
-    新加坡: https://dashscope-intl.aliyuncs.com/api/v1
-    弗吉尼亚: https://dashscope-us.aliyuncs.com/api/v1
+    China (default): https://dashscope.aliyuncs.com/api/v1
+    Singapore: https://dashscope-intl.aliyuncs.com/api/v1
+    Virginia: https://dashscope-us.aliyuncs.com/api/v1
 
 Models:
-    通义千问 Qwen-Image (文字渲染) - 使用 ImageSynthesis:
-        - qwen-image-plus (默认，中英文文字渲染最佳)
+    Qwen-Image (text rendering) - uses ImageSynthesis:
+        - qwen-image-plus (default, best for Chinese/English text)
 
-    通义万相 Wan Series (写实摄影) - 使用 ImageGeneration:
-        - wan2.6-t2i (最新，推荐)
+    Wan Series (photorealistic) - uses ImageGeneration:
+        - wan2.6-t2i (latest, recommended)
         - wan2.5-t2i-preview
-        - wan2.2-t2i-flash (快速)
+        - wan2.2-t2i-flash (fast)
         - wan2.2-t2i-plus
         - wanx2.1-t2i-turbo
         - wanx2.1-t2i-plus
@@ -201,20 +201,20 @@ def get_file_size(path):
 
 
 def list_models():
-    print("可用模型:\n")
-    print("通义千问 Qwen-Image (文字渲染) [ImageSynthesis API]:")
+    print("Available models:\n")
+    print("Qwen-Image (text rendering) [ImageSynthesis API]:")
     for m in sorted(SYNTHESIS_MODELS):
-        default = " (默认)" if m == DEFAULT_MODEL else ""
+        default = " (default)" if m == DEFAULT_MODEL else ""
         print(f"  - {m}{default}")
-    print("\n通义万相 Wan Series (写实摄影) [ImageGeneration API]:")
+    print("\nWan Series (photorealistic) [ImageGeneration API]:")
     for m in sorted(GENERATION_MODELS):
         print(f"  - {m}")
-    print("\n尺寸预设:")
+    print("\nSize presets:")
     print("  Qwen-Image:", ", ".join(QWEN_SIZES.keys()))
     print("  Wan Series:", ", ".join(WAN_SIZES.keys()))
-    print("\nAPI 端点:")
+    print("\nAPI endpoints:")
     for region, url in API_ENDPOINTS.items():
-        default = " (默认)" if region == "cn" else ""
+        default = " (default)" if region == "cn" else ""
         print(f"  - {region}: {url}{default}")
 
 
@@ -224,9 +224,9 @@ def main():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  %(prog)s "一只可爱的猫咪"
-  %(prog)s --model wan2.6-t2i "山水风景照片" ./landscape.png
-  %(prog)s --size 16:9 "宽屏壁纸" ./wallpaper.png
+  %(prog)s "A cute cat"
+  %(prog)s --model wan2.6-t2i "Mountain landscape photo" ./landscape.png
+  %(prog)s --size 16:9 "Widescreen wallpaper" ./wallpaper.png
   %(prog)s --list-models
         """
     )
@@ -261,12 +261,12 @@ Examples:
     dashscope.base_http_api_url = get_api_base()
 
     api_type = "ImageSynthesis" if model in SYNTHESIS_MODELS else "ImageGeneration"
-    print(f"正在生成图像...")
-    print(f"提示词: \"{args.prompt}\"")
-    print(f"模型: {model} ({api_type})")
-    print(f"尺寸: {size}")
-    print(f"端点: {dashscope.base_http_api_url}")
-    print(f"输出: {output_path}")
+    print(f"Generating image...")
+    print(f"Prompt: \"{args.prompt}\"")
+    print(f"Model: {model} ({api_type})")
+    print(f"Size: {size}")
+    print(f"Endpoint: {dashscope.base_http_api_url}")
+    print(f"Output: {output_path}")
     print()
 
     try:
@@ -299,11 +299,11 @@ Examples:
 
     if output_path.exists() and output_path.stat().st_size > 0:
         file_size = get_file_size(output_path)
-        print("成功！图像已生成并保存。")
-        print(f"文件: {output_path}")
-        print(f"大小: {file_size}")
+        print("Success! Image generated and saved.")
+        print(f"File: {output_path}")
+        print(f"Size: {file_size}")
     else:
-        print(f"错误: 无法保存图像到 {output_path}", file=sys.stderr)
+        print(f"Error: Failed to save image to {output_path}", file=sys.stderr)
         sys.exit(1)
 
 

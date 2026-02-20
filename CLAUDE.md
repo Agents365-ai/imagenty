@@ -2,6 +2,10 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Language
+
+All code, comments, and documentation must be in English.
+
 ## Git Commits
 
 Do NOT add "Co-Authored-By: Claude" to commit messages.

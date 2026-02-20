@@ -1,14 +1,14 @@
-# ImagenTY - 阿里云百炼文生图 Skill
+# ImagenTY - Alibaba Cloud Bailian Text-to-Image Skill
 
 ## Overview
 
-使用阿里云百炼 (Bailian) 文生图 API 生成图像。**默认使用中国区端点**，适合国内用户。
+Generate images using Alibaba Cloud Bailian API. **Default endpoint is China region**.
 
-支持两大模型系列：
-- **通义千问 (Qwen-Image)**: 擅长渲染复杂的中英文文本
-- **通义万相 (Wan Series)**: 生成写实图像和摄影级视觉效果
+Supports two model families:
+- **Qwen-Image**: Excellent at rendering complex Chinese/English text
+- **Wan Series**: Photorealistic images and photography-grade visuals
 
-**跨平台支持**: Windows, macOS, Linux
+**Cross-platform support**: Windows, macOS, Linux
 
 ## When to Use This Skill
 
@@ -16,23 +16,23 @@ Automatically activate this skill when:
 - User requests image generation with Chinese text or calligraphy
 - Need photorealistic images or photography-style visuals
 - Creating commercial posters, illustrations, or digital art
-- User explicitly requests Alibaba Cloud / Bailian / 通义 models
+- User explicitly requests Alibaba Cloud / Bailian / Qwen / Wan models
 - Any task where AI-generated image with strong Chinese support would be helpful
 
 ## Models
 
-### Qwen-Image (通义千问) - Text Rendering Specialist
+### Qwen-Image - Text Rendering Specialist
 
 | Model | Description |
 |-------|-------------|
 | `qwen-image-plus` | **Default**. Best for Chinese/English text, posters, illustrations |
 
-### Wan Series (通义万相) - Photorealistic Generation
+### Wan Series - Photorealistic Generation
 
 | Model | Description |
 |-------|-------------|
 | `wan2.6-t2i` | **Recommended**. Latest version, flexible sizing |
-| `wan2.5-t2i-preview` | High quality, up to 768×2700 |
+| `wan2.5-t2i-preview` | High quality, up to 768x2700 |
 | `wan2.2-t2i-flash` | Speed-optimized |
 | `wan2.2-t2i-plus` | Professional tier |
 | `wanx2.1-t2i-turbo` | Fast execution |
@@ -45,7 +45,7 @@ Automatically activate this skill when:
 
 ```bash
 # Default model (qwen-image-plus)
-python ~/.claude/skills/imagenty/scripts/generate_image.py "一只可爱的猫咪" output.png
+python ~/.claude/skills/imagenty/scripts/generate_image.py "A cute cat" output.png
 
 # Photorealistic with Wan model
 python ~/.claude/skills/imagenty/scripts/generate_image.py --model wan2.6-t2i "Realistic photo of mountains at sunset" photo.png
@@ -64,20 +64,20 @@ python ~/.claude/skills/imagenty/scripts/generate_image.py --size 1280*720 "Cust
 ### Size Presets
 
 **Qwen-Image:**
-- `16:9` → 1664×928
-- `9:16` → 928×1664
-- `1:1` → 1024×1024
-- `4:3` → 1216×912
-- `3:4` → 912×1216
+- `16:9` -> 1664x928
+- `9:16` -> 928x1664
+- `1:1` -> 1024x1024
+- `4:3` -> 1216x912
+- `3:4` -> 912x1216
 
 **Wan Series:**
-- `1:1` → 1024×1024
-- `1:1-large` → 1280×1280
-- `16:9` → 1280×720
-- `9:16` → 720×1280
-- `4:3` → 1200×900
-- `3:4` → 900×1200
-- `2:1` → 1440×720
+- `1:1` -> 1024x1024
+- `1:1-large` -> 1280x1280
+- `16:9` -> 1280x720
+- `9:16` -> 720x1280
+- `4:3` -> 1200x900
+- `3:4` -> 900x1200
+- `2:1` -> 1440x720
 
 ### Advanced Options
 
@@ -98,31 +98,31 @@ pip install dashscope requests
 ## Environment Variables
 
 ```bash
-# Required - 阿里云百炼 API Key
+# Required - Alibaba Cloud Bailian API Key
 export DASHSCOPE_API_KEY="your_api_key"
 
-# Optional - 设置默认模型
+# Optional - Set default model
 export DASHSCOPE_MODEL="wan2.6-t2i"
 
-# Optional - 设置 API 端点 (默认中国区)
-export DASHSCOPE_API_BASE="cn"  # 或完整 URL
+# Optional - Set API endpoint (default: China)
+export DASHSCOPE_API_BASE="cn"  # or full URL
 ```
 
-获取 API Key: https://bailian.console.aliyun.com/
+Get API Key: https://bailian.console.aliyun.com/
 
 ## API Endpoints
 
-| 地区 | 别名 | URL |
-|------|------|-----|
-| **中国区** (默认) | `cn` | `https://dashscope.aliyuncs.com/api/v1` |
-| 新加坡 | `sg` | `https://dashscope-intl.aliyuncs.com/api/v1` |
-| 弗吉尼亚 | `us` | `https://dashscope-us.aliyuncs.com/api/v1` |
+| Region | Alias | URL |
+|--------|-------|-----|
+| **China** (default) | `cn` | `https://dashscope.aliyuncs.com/api/v1` |
+| Singapore | `sg` | `https://dashscope-intl.aliyuncs.com/api/v1` |
+| Virginia | `us` | `https://dashscope-us.aliyuncs.com/api/v1` |
 
 ```bash
-# 切换到新加坡端点
+# Switch to Singapore endpoint
 export DASHSCOPE_API_BASE="sg"
 
-# 或使用完整 URL
+# Or use full URL
 export DASHSCOPE_API_BASE="https://dashscope-intl.aliyuncs.com/api/v1"
 ```
 
@@ -147,14 +147,14 @@ export DASHSCOPE_API_BASE="https://dashscope-intl.aliyuncs.com/api/v1"
 | Photorealistic images | Excellent | Good |
 | Speed | Medium | Fast |
 | Model variety | 8 models | 3 models |
-| Max resolution | 1440×1440 | 2K |
+| Max resolution | 1440x1440 | 2K |
 
 ## Examples
 
-### Chinese Poster
+### Chinese New Year Poster
 ```bash
 python ~/.claude/skills/imagenty/scripts/generate_image.py \
-  "一副精美的中国新年海报，红色背景，金色'恭喜发财'字样，周围环绕烟花和鞭炮" \
+  "A beautiful Chinese New Year poster with red background, golden text, fireworks and firecrackers" \
   new_year_poster.png
 ```
 
