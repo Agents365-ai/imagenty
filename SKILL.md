@@ -1,3 +1,11 @@
+---
+name: imagenty
+description: Use when generating images with Alibaba Cloud Bailian API, especially for Chinese text rendering or photorealistic images
+author: Agents365-ai
+created: 2024-12-01
+updated: 2025-02-21
+---
+
 # ImagenTY - Alibaba Cloud Bailian Text-to-Image Skill
 
 ## Overview
