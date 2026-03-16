@@ -4,6 +4,8 @@ description: Use when generating images with Alibaba Cloud Bailian API, especial
 author: Agents365-ai
 created: 2024-12-01
 updated: 2025-02-21
+homepage: https://github.com/Agents365-ai/imagenty
+metadata: {"openclaw":{"requires":{"bins":["python3"],"env":["DASHSCOPE_API_KEY"]},"primaryEnv":"DASHSCOPE_API_KEY","emoji":"🎨"}}
 ---
 
 # ImagenTY - Alibaba Cloud Bailian Text-to-Image Skill
