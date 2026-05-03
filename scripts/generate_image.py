@@ -7,12 +7,12 @@ Default endpoint is China region.
 
 Usage:
     python generate_image.py "prompt" [output_path]
-    python generate_image.py --model wan2.6-t2i "prompt" output.png
-    python generate_image.py --size 1024*1024 "prompt" output.png
+    python generate_image.py --model wan2.7-image-pro "prompt" output.png
+    python generate_image.py --size 2K "prompt" output.png
 
 Environment variables:
     DASHSCOPE_API_KEY (required) - Alibaba Cloud Bailian API Key
-    DASHSCOPE_MODEL (optional) - Default model (default: qwen-image-plus)
+    DASHSCOPE_MODEL (optional) - Default model (default: qwen-image-2.0-pro)
     DASHSCOPE_API_BASE (optional) - API endpoint, defaults to China region
 
 API Endpoints:
@@ -21,16 +21,22 @@ API Endpoints:
     Virginia: https://dashscope-us.aliyuncs.com/api/v1
 
 Models:
-    Qwen-Image (text rendering) - uses ImageSynthesis:
-        - qwen-image-plus (default, best for Chinese/English text)
+    Qwen-Image 2.0 family (latest, native 2K) - uses MultiModalConversation:
+        - qwen-image-2.0-pro (default, flagship)
+        - qwen-image-2.0
+        - qwen-image-max
+
+    Qwen-Image legacy (text rendering) - uses ImageSynthesis:
+        - qwen-image-plus
+        - qwen-image
 
     Wan Series (photorealistic) - uses ImageGeneration:
-        - wan2.6-t2i (latest, recommended)
+        - wan2.7-image-pro (latest, supports up to 4K)
+        - wan2.7-image
+        - wan2.6-t2i
         - wan2.5-t2i-preview
-        - wan2.2-t2i-flash (fast)
-        - wan2.2-t2i-plus
-        - wanx2.1-t2i-turbo
-        - wanx2.1-t2i-plus
+        - wan2.2-t2i-flash, wan2.2-t2i-plus
+        - wanx2.1-t2i-turbo, wanx2.1-t2i-plus, wanx2.0-t2i-turbo
 """
 
 import argparse
@@ -41,7 +47,7 @@ from http import HTTPStatus
 
 try:
     import requests
-    from dashscope import ImageSynthesis
+    from dashscope import ImageSynthesis, MultiModalConversation
     from dashscope.aigc.image_generation import ImageGeneration
     import dashscope
 except ImportError:
@@ -51,8 +57,8 @@ except ImportError:
     sys.exit(1)
 
 
-DEFAULT_MODEL = "qwen-image-plus"
-DEFAULT_SIZE = "1024*1024"
+DEFAULT_MODEL = "qwen-image-2.0-pro"
+DEFAULT_SIZE = "2048*2048"
 
 # API Endpoints
 API_ENDPOINTS = {
@@ -62,26 +68,43 @@ API_ENDPOINTS = {
 }
 DEFAULT_API_BASE = API_ENDPOINTS["cn"]
 
-# Models using ImageSynthesis (older API with prompt parameter)
-SYNTHESIS_MODELS = {"qwen-image-plus"}
+# Models using ImageSynthesis (legacy Qwen text rendering, prompt parameter)
+SYNTHESIS_MODELS = {"qwen-image-plus", "qwen-image"}
 
-# Models using ImageGeneration (newer API with messages format)
+# Models using ImageGeneration (Wan series, messages format)
 GENERATION_MODELS = {
+    "wan2.7-image-pro", "wan2.7-image",
     "wan2.6-t2i", "wan2.5-t2i-preview",
     "wan2.2-t2i-flash", "wan2.2-t2i-plus",
-    "wanx2.1-t2i-turbo", "wanx2.1-t2i-plus", "wanx2.0-t2i-turbo"
+    "wanx2.1-t2i-turbo", "wanx2.1-t2i-plus", "wanx2.0-t2i-turbo",
 }
 
-# Size presets for qwen-image-plus
+# Models using MultiModalConversation (Qwen-Image 2.0 family, native 2K)
+MULTIMODAL_MODELS = {
+    "qwen-image-2.0-pro", "qwen-image-2.0", "qwen-image-max",
+}
+
+# Size presets for Qwen-Image 2.0 family (native up to 2048x2048)
+QWEN2_SIZES = {
+    "1:1": "2048*2048",
+    "16:9": "2688*1536",
+    "9:16": "1536*2688",
+    "4:3": "2304*1728",
+    "3:4": "1728*2304",
+    "1K": "1024*1024",
+    "2K": "2048*2048",
+}
+
+# Size presets for legacy Qwen-Image / qwen-image-plus
 QWEN_SIZES = {
+    "1:1": "1328*1328",
     "16:9": "1664*928",
     "9:16": "928*1664",
-    "1:1": "1024*1024",
-    "4:3": "1216*912",
-    "3:4": "912*1216",
+    "4:3": "1472*1104",
+    "3:4": "1104*1472",
 }
 
-# Common sizes for wan models
+# Size presets for Wan series. Wan2.7 also accepts shorthand "1K"/"2K"/"4K".
 WAN_SIZES = {
     "1:1": "1024*1024",
     "1:1-large": "1280*1280",
@@ -90,6 +113,9 @@ WAN_SIZES = {
     "4:3": "1200*900",
     "3:4": "900*1200",
     "2:1": "1440*720",
+    "1K": "1K",
+    "2K": "2K",
+    "4K": "4K",
 }
 
 
@@ -114,9 +140,17 @@ def get_api_base():
 
 
 def resolve_size(size_input, model):
+    if model in MULTIMODAL_MODELS:
+        sizes = QWEN2_SIZES
+        default = "2048*2048"
+    elif model in SYNTHESIS_MODELS:
+        sizes = QWEN_SIZES
+        default = "1328*1328"
+    else:
+        sizes = WAN_SIZES
+        default = "1024*1024"
     if not size_input:
-        return DEFAULT_SIZE
-    sizes = QWEN_SIZES if model in SYNTHESIS_MODELS else WAN_SIZES
+        return default
     if size_input in sizes:
         return sizes[size_input]
     if "*" in size_input or "x" in size_input:
@@ -147,7 +181,7 @@ def generate_with_synthesis(api_key, model, prompt, size, negative_prompt=None):
 
 
 def generate_with_generation(api_key, model, prompt, size, negative_prompt=None):
-    """Generate image using ImageGeneration (for wan2.6-t2i etc)."""
+    """Generate image using ImageGeneration (for wan2.6-t2i, wan2.7-image, etc)."""
     messages = [{"role": "user", "content": [{"text": prompt}]}]
     params = {
         "api_key": api_key,
@@ -163,20 +197,36 @@ def generate_with_generation(api_key, model, prompt, size, negative_prompt=None)
     return ImageGeneration.call(**params)
 
 
+def generate_with_multimodal(api_key, model, prompt, size, negative_prompt=None):
+    """Generate image using MultiModalConversation (for qwen-image-2.0 family)."""
+    messages = [{"role": "user", "content": [{"text": prompt}]}]
+    params = {
+        "api_key": api_key,
+        "model": model,
+        "messages": messages,
+        "n": 1,
+        "size": size,
+        "prompt_extend": True,
+        "watermark": False,
+    }
+    if negative_prompt:
+        params["negative_prompt"] = negative_prompt
+    return MultiModalConversation.call(**params)
+
+
 def extract_image_url(rsp, model):
     """Extract image URL from response based on model type."""
     if model in SYNTHESIS_MODELS:
         if rsp.output and rsp.output.results:
             return rsp.output.results[0].url
-    else:
-        # ImageGeneration response structure
-        if hasattr(rsp, 'output') and rsp.output:
-            choices = rsp.output.get('choices', [])
-            if choices:
-                content = choices[0].get('message', {}).get('content', [])
-                for item in content:
-                    if 'image' in item:
-                        return item['image']
+    # ImageGeneration and MultiModalConversation share the choices/message format
+    if hasattr(rsp, 'output') and rsp.output:
+        choices = rsp.output.get('choices', [])
+        if choices:
+            content = choices[0].get('message', {}).get('content', [])
+            for item in content:
+                if 'image' in item:
+                    return item['image']
     return None
 
 
@@ -202,15 +252,21 @@ def get_file_size(path):
 
 def list_models():
     print("Available models:\n")
-    print("Qwen-Image (text rendering) [ImageSynthesis API]:")
+    print("Qwen-Image 2.0 family (native 2K) [MultiModalConversation API]:")
+    for m in sorted(MULTIMODAL_MODELS):
+        default = " (default)" if m == DEFAULT_MODEL else ""
+        print(f"  - {m}{default}")
+    print("\nQwen-Image legacy (text rendering) [ImageSynthesis API]:")
     for m in sorted(SYNTHESIS_MODELS):
         default = " (default)" if m == DEFAULT_MODEL else ""
         print(f"  - {m}{default}")
     print("\nWan Series (photorealistic) [ImageGeneration API]:")
     for m in sorted(GENERATION_MODELS):
-        print(f"  - {m}")
+        default = " (default)" if m == DEFAULT_MODEL else ""
+        print(f"  - {m}{default}")
     print("\nSize presets:")
-    print("  Qwen-Image:", ", ".join(QWEN_SIZES.keys()))
+    print("  Qwen-Image 2.0:", ", ".join(QWEN2_SIZES.keys()))
+    print("  Qwen-Image legacy:", ", ".join(QWEN_SIZES.keys()))
     print("  Wan Series:", ", ".join(WAN_SIZES.keys()))
     print("\nAPI endpoints:")
     for region, url in API_ENDPOINTS.items():
@@ -252,15 +308,21 @@ Examples:
     size = resolve_size(args.size, model)
     output_path = Path(args.output)
 
-    all_models = SYNTHESIS_MODELS | GENERATION_MODELS
+    all_models = SYNTHESIS_MODELS | GENERATION_MODELS | MULTIMODAL_MODELS
     if model not in all_models:
         print(f"Warning: Unknown model '{model}'. Using {DEFAULT_MODEL}", file=sys.stderr)
         model = DEFAULT_MODEL
+        size = resolve_size(args.size, model)
 
     create_output_dir(output_path)
     dashscope.base_http_api_url = get_api_base()
 
-    api_type = "ImageSynthesis" if model in SYNTHESIS_MODELS else "ImageGeneration"
+    if model in SYNTHESIS_MODELS:
+        api_type = "ImageSynthesis"
+    elif model in MULTIMODAL_MODELS:
+        api_type = "MultiModalConversation"
+    else:
+        api_type = "ImageGeneration"
     print(f"Generating image...")
     print(f"Prompt: \"{args.prompt}\"")
     print(f"Model: {model} ({api_type})")
@@ -272,6 +334,8 @@ Examples:
     try:
         if model in SYNTHESIS_MODELS:
             rsp = generate_with_synthesis(api_key, model, args.prompt, size, args.negative)
+        elif model in MULTIMODAL_MODELS:
+            rsp = generate_with_multimodal(api_key, model, args.prompt, size, args.negative)
         else:
             rsp = generate_with_generation(api_key, model, args.prompt, size, args.negative)
     except Exception as e:
