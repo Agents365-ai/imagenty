@@ -1,14 +1,14 @@
 ---
-name: imagenty
+name: imagen-qwen
 description: Use when generating images with Alibaba Cloud Bailian API, especially for Chinese text rendering or photorealistic images
 author: Agents365-ai
 created: 2024-12-01
 updated: 2025-02-21
-homepage: https://github.com/Agents365-ai/imagenty
+homepage: https://github.com/Agents365-ai/imagen-qwen
 metadata: {"openclaw":{"requires":{"bins":["python3"],"env":["DASHSCOPE_API_KEY"]},"primaryEnv":"DASHSCOPE_API_KEY","emoji":"🎨"}}
 ---
 
-# ImagenTY - Alibaba Cloud Bailian Text-to-Image Skill
+# Imagen-Qwen - Alibaba Cloud Bailian Text-to-Image Skill
 
 ## Overview
 
@@ -55,20 +55,20 @@ Automatically activate this skill when:
 
 ```bash
 # Default model (qwen-image-plus)
-python ~/.claude/skills/imagenty/scripts/generate_image.py "A cute cat" output.png
+python ~/.claude/skills/imagen-qwen/scripts/generate_image.py "A cute cat" output.png
 
 # Photorealistic with Wan model
-python ~/.claude/skills/imagenty/scripts/generate_image.py --model wan2.6-t2i "Realistic photo of mountains at sunset" photo.png
+python ~/.claude/skills/imagen-qwen/scripts/generate_image.py --model wan2.6-t2i "Realistic photo of mountains at sunset" photo.png
 ```
 
 ### Size Options
 
 ```bash
 # Use ratio preset
-python ~/.claude/skills/imagenty/scripts/generate_image.py --size 16:9 "Wide landscape" landscape.png
+python ~/.claude/skills/imagen-qwen/scripts/generate_image.py --size 16:9 "Wide landscape" landscape.png
 
 # Use exact dimensions
-python ~/.claude/skills/imagenty/scripts/generate_image.py --size 1280*720 "Custom size" custom.png
+python ~/.claude/skills/imagen-qwen/scripts/generate_image.py --size 1280*720 "Custom size" custom.png
 ```
 
 ### Size Presets
@@ -93,10 +93,10 @@ python ~/.claude/skills/imagenty/scripts/generate_image.py --size 1280*720 "Cust
 
 ```bash
 # With negative prompt
-python ~/.claude/skills/imagenty/scripts/generate_image.py --negative "blurry, low quality" "High quality portrait" portrait.png
+python ~/.claude/skills/imagen-qwen/scripts/generate_image.py --negative "blurry, low quality" "High quality portrait" portrait.png
 
 # List all models
-python ~/.claude/skills/imagenty/scripts/generate_image.py --list-models
+python ~/.claude/skills/imagen-qwen/scripts/generate_image.py --list-models
 ```
 
 ## Requirements
@@ -150,7 +150,7 @@ export DASHSCOPE_API_BASE="https://dashscope-intl.aliyuncs.com/api/v1"
 
 ## Comparison with Imagen (Gemini)
 
-| Feature | ImagenTY (Bailian) | Imagen (Gemini) |
+| Feature | Imagen-Qwen (Bailian) | Imagen (Gemini) |
 |---------|-------------------|-----------------|
 | Chinese text rendering | Excellent | Good |
 | English text rendering | Excellent | Good |
@@ -163,14 +163,14 @@ export DASHSCOPE_API_BASE="https://dashscope-intl.aliyuncs.com/api/v1"
 
 ### Chinese New Year Poster
 ```bash
-python ~/.claude/skills/imagenty/scripts/generate_image.py \
+python ~/.claude/skills/imagen-qwen/scripts/generate_image.py \
   "A beautiful Chinese New Year poster with red background, golden text, fireworks and firecrackers" \
   new_year_poster.png
 ```
 
 ### Photorealistic Landscape
 ```bash
-python ~/.claude/skills/imagenty/scripts/generate_image.py \
+python ~/.claude/skills/imagen-qwen/scripts/generate_image.py \
   --model wan2.6-t2i \
   --size 16:9 \
   "Breathtaking sunset over mountain range, golden hour, professional photography" \
@@ -179,7 +179,7 @@ python ~/.claude/skills/imagenty/scripts/generate_image.py \
 
 ### Product Shot
 ```bash
-python ~/.claude/skills/imagenty/scripts/generate_image.py \
+python ~/.claude/skills/imagen-qwen/scripts/generate_image.py \
   --model wan2.6-t2i \
   "Professional product photography of a coffee cup on marble surface, studio lighting" \
   product.png

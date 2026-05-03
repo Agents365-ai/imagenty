@@ -43,7 +43,7 @@ export DASHSCOPE_API_BASE="cn"            # Optional: cn, sg, us
 ## Project Structure
 
 ```
-imagenty/
+imagen-qwen/
 ├── SKILL.md              # Main documentation
 ├── scripts/
 │   └── generate_image.py # Image generation script

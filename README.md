@@ -1,4 +1,4 @@
-# ImagenTY — 阿里云百炼 AI 图像生成技能
+# Imagen-Qwen — 阿里云百炼 AI 图像生成技能
 
 [English](README_EN.md)
 
@@ -33,20 +33,20 @@
 
 **Claude Code（全局）：**
 ```bash
-git clone https://github.com/Agents365-ai/imagenty.git ~/.claude/skills/imagenty
+git clone https://github.com/Agents365-ai/imagen-qwen.git ~/.claude/skills/imagen-qwen
 ```
 
 **Claude Code（仅当前项目）：**
 ```bash
-git clone https://github.com/Agents365-ai/imagenty.git .claude/skills/imagenty
+git clone https://github.com/Agents365-ai/imagen-qwen.git .claude/skills/imagen-qwen
 ```
 
 **OpenClaw：**
 ```bash
-git clone https://github.com/Agents365-ai/imagenty.git skills/imagenty
+git clone https://github.com/Agents365-ai/imagen-qwen.git skills/imagen-qwen
 ```
 
-**SkillsMP：** 在 [skillsmp.com](https://skillsmp.com) 搜索 `imagenty`，一键安装。
+**SkillsMP：** 在 [skillsmp.com](https://skillsmp.com) 搜索 `imagen-qwen`，一键安装。
 
 ## 系统要求
 
@@ -96,19 +96,19 @@ export DASHSCOPE_API_BASE="cn"  # 或 "sg", "us", 或完整 URL
 
 ```bash
 # 基本用法（默认模型: qwen-image-plus）
-python ~/.claude/skills/imagenty/scripts/generate_image.py "一只可爱的猫咪" output.png
+python ~/.claude/skills/imagen-qwen/scripts/generate_image.py "一只可爱的猫咪" output.png
 
 # 使用 Wan 模型生成写实图像
-python ~/.claude/skills/imagenty/scripts/generate_image.py --model wan2.6-t2i "山间日落" photo.png
+python ~/.claude/skills/imagen-qwen/scripts/generate_image.py --model wan2.6-t2i "山间日落" photo.png
 
 # 自定义尺寸
-python ~/.claude/skills/imagenty/scripts/generate_image.py --size 16:9 "宽屏风景" landscape.png
+python ~/.claude/skills/imagen-qwen/scripts/generate_image.py --size 16:9 "宽屏风景" landscape.png
 
 # 使用负面提示词
-python ~/.claude/skills/imagenty/scripts/generate_image.py --negative "模糊" "高质量人像" portrait.png
+python ~/.claude/skills/imagen-qwen/scripts/generate_image.py --negative "模糊" "高质量人像" portrait.png
 
 # 列出可用模型
-python ~/.claude/skills/imagenty/scripts/generate_image.py --list-models
+python ~/.claude/skills/imagen-qwen/scripts/generate_image.py --list-models
 ```
 
 ## 模型

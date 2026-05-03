@@ -1,4 +1,4 @@
-# ImagenTY — AI Image Generation with Chinese Text Excellence
+# Imagen-Qwen — AI Image Generation with Chinese Text Excellence
 
 [中文文档](README.md)
 
@@ -33,20 +33,20 @@ A Claude Code / OpenClaw skill for AI image generation using Alibaba Cloud Baili
 
 **Claude Code (global):**
 ```bash
-git clone https://github.com/Agents365-ai/imagenty.git ~/.claude/skills/imagenty
+git clone https://github.com/Agents365-ai/imagen-qwen.git ~/.claude/skills/imagen-qwen
 ```
 
 **Claude Code (project-specific):**
 ```bash
-git clone https://github.com/Agents365-ai/imagenty.git .claude/skills/imagenty
+git clone https://github.com/Agents365-ai/imagen-qwen.git .claude/skills/imagen-qwen
 ```
 
 **OpenClaw:**
 ```bash
-git clone https://github.com/Agents365-ai/imagenty.git skills/imagenty
+git clone https://github.com/Agents365-ai/imagen-qwen.git skills/imagen-qwen
 ```
 
-**SkillsMP:** Search `imagenty` on [skillsmp.com](https://skillsmp.com) for one-click install.
+**SkillsMP:** Search `imagen-qwen` on [skillsmp.com](https://skillsmp.com) for one-click install.
 
 ## Requirements
 
@@ -96,19 +96,19 @@ Generate a 16:9 landscape wallpaper
 
 ```bash
 # Basic usage (default model: qwen-image-plus)
-python ~/.claude/skills/imagenty/scripts/generate_image.py "A cute cat" output.png
+python ~/.claude/skills/imagen-qwen/scripts/generate_image.py "A cute cat" output.png
 
 # Photorealistic with Wan model
-python ~/.claude/skills/imagenty/scripts/generate_image.py --model wan2.6-t2i "Mountain sunset" photo.png
+python ~/.claude/skills/imagen-qwen/scripts/generate_image.py --model wan2.6-t2i "Mountain sunset" photo.png
 
 # Custom size
-python ~/.claude/skills/imagenty/scripts/generate_image.py --size 16:9 "Wide landscape" landscape.png
+python ~/.claude/skills/imagen-qwen/scripts/generate_image.py --size 16:9 "Wide landscape" landscape.png
 
 # With negative prompt
-python ~/.claude/skills/imagenty/scripts/generate_image.py --negative "blurry" "High quality portrait" portrait.png
+python ~/.claude/skills/imagen-qwen/scripts/generate_image.py --negative "blurry" "High quality portrait" portrait.png
 
 # List available models
-python ~/.claude/skills/imagenty/scripts/generate_image.py --list-models
+python ~/.claude/skills/imagen-qwen/scripts/generate_image.py --list-models
 ```
 
 ## Models
